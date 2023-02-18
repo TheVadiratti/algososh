@@ -1,0 +1,10 @@
+.cnt {
+  width: fit-content;
+  margin: auto;
+  display: flex;
+  gap: 12px;
+}
+
+.input {
+  width: 377px;
+}
