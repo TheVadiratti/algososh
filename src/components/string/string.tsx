@@ -11,6 +11,7 @@ export const StringComponent: React.FC = () => {
   const [inputValue, setInputValue] = React.useState<string>('');
   const [inProgress, setProgress] = React.useState<boolean>(false);
   const [data, setData] = React.useState<TStringObj[]>([]);
+  const [isShow, setIsShow] = React.useState<boolean>(false);
 
   const enterText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -29,6 +30,7 @@ export const StringComponent: React.FC = () => {
     setData(forRender);
 
     setProgress(true);
+    setIsShow(true);
   }
 
   return (
@@ -44,7 +46,7 @@ export const StringComponent: React.FC = () => {
         />
         <Button type="submit" text="Развернуть" isLoader={inProgress} />
       </form>
-      {inProgress && (
+      {isShow && (
         <StringAnimation data={data} setProgress={setProgress} />
       )}
     </SolutionLayout>
