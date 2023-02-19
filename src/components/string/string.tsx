@@ -3,28 +3,50 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import Styles from './string.module.css';
+import StringAnimation from "./string-animation";
+import { ElementStates } from "../../types/element-states";
+import { TStringObj } from "../../types/types";
 
 export const StringComponent: React.FC = () => {
-  const [inputValue, setInputValue] = React.useState('');
-  const [isLoader, setLoader] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState<string>('');
+  const [inProgress, setProgress] = React.useState<boolean>(false);
+  const [data, setData] = React.useState<TStringObj[]>([]);
 
   const enterText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   }
 
-  const toBegin = () => {
-    setLoader(true);
+  const toBegin: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+
+    // подготовка массива с буквами
+    const forRender = Array.from(inputValue).map(item => {
+      return {
+        value: item,
+        state: ElementStates.Default
+      }
+    });
+    setData(forRender);
+
+    setProgress(true);
   }
 
   return (
     <SolutionLayout title="Строка">
-      <div className={Styles.cnt}>
-        <Input maxLength={11} type='text' isLimitText={true} extraClass={Styles.input} onChange={enterText} value={inputValue} />
-        <Button type="button" text="Развернуть" isLoader={isLoader} onClick={toBegin} />
-      </div>
-      <div className={Styles.result}>
-
-      </div>
+      <form className={Styles.form} onSubmit={toBegin}>
+        <Input
+          maxLength={11}
+          type='text'
+          isLimitText={true}
+          extraClass={Styles.input}
+          onChange={enterText}
+          value={inputValue}
+        />
+        <Button type="submit" text="Развернуть" isLoader={inProgress} />
+      </form>
+      {inProgress && (
+        <StringAnimation data={data} setProgress={setProgress} />
+      )}
     </SolutionLayout>
   );
 };
