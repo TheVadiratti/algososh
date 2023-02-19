@@ -1,5 +1,5 @@
 import React from "react"
-import { Circle } from "../ui/circle/circle";
+import { Circle } from "../../components/ui/circle/circle";
 import Styles from './string.module.css';
 import { TStringObj } from "../../types/types";
 
