@@ -8,7 +8,7 @@ export const swap = (array: any[], firstIndex: number, secondIndex: number) => {
   array[secondIndex] = tmp;
 };
 
-export const setDelay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const setDelay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const recursionArray = async (array: TStringObj[], setArray: React.Dispatch<React.SetStateAction<TStringObj[]>>, setProgress: (value: React.SetStateAction<boolean>) => void) => {
   let start = 0;
@@ -35,6 +35,29 @@ export const recursionArray = async (array: TStringObj[], setArray: React.Dispat
 
     start++;
     end--;
+  }
+  setProgress(false);
+}
+
+export const fibonacciArray = async (maxIndex: number, setArray: React.Dispatch<React.SetStateAction<string[]>>, setProgress: (value: React.SetStateAction<boolean>) => void) => {
+  const res = [];
+
+  res.push('0');
+  setArray([...res]);
+  await setDelay(DELAY_IN_MS);
+
+  res.push('1');
+  setArray([...res]);
+  await setDelay(DELAY_IN_MS);
+
+  for(let i = 0; i <= maxIndex - 2; i++) {
+    if(maxIndex === 1) {
+      setArray([...res]);
+      break;
+    }
+    res.push(String(Number(res[i]) + Number(res[i + 1])));
+    setArray([...res]);
+    await setDelay(DELAY_IN_MS);
   }
   setProgress(false);
 }

@@ -3,7 +3,7 @@ import { Input } from "../../components/ui/input/input";
 import { Button } from "../../components/ui/button/button";
 import { SolutionLayout } from "../../components/ui/solution-layout/solution-layout";
 import Styles from './string.module.css';
-import StringAnimation from "./string-animation";
+import StringAnimation from "../../components/string-animation/string-animation";
 import { ElementStates } from "../../types/element-states";
 import { TStringObj } from "../../types/types";
 

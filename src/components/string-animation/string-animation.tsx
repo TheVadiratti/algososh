@@ -1,8 +1,7 @@
 import React from "react"
-import { Circle } from "../../components/ui/circle/circle";
-import Styles from './string.module.css';
+import { Circle } from "../ui/circle/circle";
+import Styles from './string-animation.module.css';
 import { TStringObj } from "../../types/types";
-
 import { recursionArray } from "../../utils/utils";
 
 type TProps = {

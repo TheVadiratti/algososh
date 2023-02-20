@@ -3,10 +3,12 @@ import { SolutionLayout } from "../../components/ui/solution-layout/solution-lay
 import Styles from './fibonacci-page.module.css';
 import { Input } from "../../components/ui/input/input";
 import { Button } from "../../components/ui/button/button";
+import FibonacciAnimation from "../../components/fibonacci-animation/fibonacci-animation";
 
 export const FibonacciPage: React.FC = () => {
   const [inputValue, setInputValue] = React.useState<string>('');
   const [inProgress, setProgress] = React.useState<boolean>(false);
+  const [maxIndex, setMaxIndex] = React.useState<number>(0);
   const [isShow, setIsShow] = React.useState<boolean>(false);
 
   const enterText = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,8 +17,9 @@ export const FibonacciPage: React.FC = () => {
 
   const toBegin: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-
-
+    setMaxIndex(Number(inputValue));
+    setProgress(true);
+    setIsShow(true);
   }
 
   return (
@@ -34,6 +37,9 @@ export const FibonacciPage: React.FC = () => {
         />
         <Button type="submit" text="Рассчитать" isLoader={inProgress} />
       </form>
+      {isShow && (
+        <FibonacciAnimation maxIndex={maxIndex} setProgress={setProgress} />
+      )}
     </SolutionLayout>
   );
 };
