@@ -40,7 +40,7 @@ export const StringComponent: React.FC = () => {
           maxLength={11}
           type='text'
           isLimitText={true}
-          extraClass={Styles.input}
+          style={{width: '377px'}}
           onChange={enterText}
           value={inputValue}
         />
