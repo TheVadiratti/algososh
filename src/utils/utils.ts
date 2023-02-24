@@ -80,7 +80,7 @@ export const sortBubble = async (
   direction: Direction,
   setArray: React.Dispatch<React.SetStateAction<TSortObj[]>>,
   setProgress: React.Dispatch<React.SetStateAction<boolean>>
-  ) => {
+) => {
   
   for(let i = array.length - 1; i >= 0; i--) {
     const newArr = array;
@@ -111,6 +111,47 @@ export const sortBubble = async (
       setArray([...newArr]);
     }
     newArr[i].state = ElementStates.Modified;
+  }
+  setProgress(false);
+}
+
+export const sortSelection = async (
+  array: TSortObj[],
+  direction: Direction,
+  setArray: React.Dispatch<React.SetStateAction<TSortObj[]>>,
+  setProgress: React.Dispatch<React.SetStateAction<boolean>> 
+) => {
+  const newArr = array;
+
+  for(let i = 0; i < newArr.length; i++) {
+    let mostMaxMin = i;
+    newArr[i].state = ElementStates.Changing;
+    setArray([...newArr]);
+
+    for(let j = i + 1; j < newArr.length; j++) {
+      
+      newArr[j].state = ElementStates.Changing;
+      setArray([...newArr]);
+      await setDelay(DELAY_IN_MS);
+      
+      if(direction === Direction.Ascending) {
+        if(newArr[j].value < newArr[mostMaxMin].value) {
+          mostMaxMin = j;
+        }
+      }
+      else {
+        if(newArr[j].value > newArr[mostMaxMin].value) {
+          mostMaxMin = j;
+        }
+      }
+      newArr[j].state = ElementStates.Default;
+      setArray([...newArr]);
+    }
+
+    swap(newArr, i, mostMaxMin);
+    newArr[mostMaxMin].state = ElementStates.Default;
+    newArr[i].state = ElementStates.Modified;
+    setArray([...newArr]);
   }
   setProgress(false);
 }
