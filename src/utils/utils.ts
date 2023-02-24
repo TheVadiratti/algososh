@@ -1,6 +1,7 @@
 import { TSortObj, TStringObj } from "../types/types";
 import { ElementStates } from "../types/element-states";
 import { DELAY_IN_MS } from "../constants/delays";
+import { Direction } from "../types/direction";
 
 export const swap = (array: any[], firstIndex: number, secondIndex: number) => {
   const tmp = array[firstIndex];
@@ -74,7 +75,13 @@ export const fibonacciArray = async (maxIndex: number, setArray: React.Dispatch<
   setProgress(false);
 }
 
-export const sortBubble = async (array: TSortObj[], setArray: React.Dispatch<React.SetStateAction<TSortObj[]>>, setProgress: React.Dispatch<React.SetStateAction<boolean>>) => {
+export const sortBubble = async (
+  array: TSortObj[],
+  direction: Direction,
+  setArray: React.Dispatch<React.SetStateAction<TSortObj[]>>,
+  setProgress: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+  
   for(let i = array.length - 1; i >= 0; i--) {
     const newArr = array;
     for(let j = 0; j < i; j++) {
@@ -84,11 +91,21 @@ export const sortBubble = async (array: TSortObj[], setArray: React.Dispatch<Rea
       setArray([...newArr]);
       await setDelay(DELAY_IN_MS);
 
-      if(newArr[j].value > newArr[j + 1].value) {
-        swap(newArr, j, j + 1);
-        setArray([...newArr]);
-        await setDelay(DELAY_IN_MS);
+      if(direction === Direction.Ascending) {
+        if(newArr[j].value > newArr[j + 1].value) {
+          swap(newArr, j, j + 1);
+          setArray([...newArr]);
+          await setDelay(DELAY_IN_MS);
+        }
       }
+      else {
+        if(newArr[j].value < newArr[j + 1].value) {
+          swap(newArr, j, j + 1);
+          setArray([...newArr]);
+          await setDelay(DELAY_IN_MS);
+        }
+      }  
+
       newArr[j].state = ElementStates.Default;
       newArr[j + 1].state = ElementStates.Default;
       setArray([...newArr]);

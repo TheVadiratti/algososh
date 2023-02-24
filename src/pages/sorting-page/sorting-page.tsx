@@ -54,8 +54,20 @@ return (
     <form className={Styles.form}>
 
       <div className={Styles.typeCnt}>
-        <RadioInput label="Выбор" name="type" onChange={checkboxHandler} checked={settings.type === SortTypes.Selection ? true : false} />
-        <RadioInput label="Пузырёк" name="type" onChange={checkboxHandler} checked={settings.type === SortTypes.Bubble ? true : false} />
+        <RadioInput
+          label="Выбор"
+          name="type"
+          onChange={checkboxHandler}
+          checked={settings.type === SortTypes.Selection ? true : false}
+          disabled={inProgress}
+        />
+        <RadioInput
+          label="Пузырёк"
+          name="type"
+          onChange={checkboxHandler}
+          checked={settings.type === SortTypes.Bubble ? true : false}
+          disabled={inProgress}
+        />
       </div>
 
       <div className={Styles.directionCnt}>

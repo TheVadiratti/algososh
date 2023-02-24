@@ -19,7 +19,7 @@ export default function SortingAnimation ({ data, settings, inProgress, setProgr
 
   React.useEffect(() => {
     if(inProgress) {
-      sortBubble(arr, setArr, setProgress);
+      sortBubble(arr, settings.direction, setArr, setProgress);
     }
   }, [inProgress]);
 
