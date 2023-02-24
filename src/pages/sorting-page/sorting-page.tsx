@@ -59,14 +59,30 @@ return (
       </div>
 
       <div className={Styles.directionCnt}>
-        <Button type="button" text="По возрастанию" sorting={Direction.Ascending} onClick={toBeginAscending} />
-        <Button type="button" text="По убыванию" sorting={Direction.Descending} onClick={toBeginDescending} />
+        <Button
+          type="button"
+          text="По возрастанию"
+          sorting={Direction.Ascending}
+          onClick={toBeginAscending}
+          isLoader={inProgress && settings.direction === Direction.Ascending}
+          disabled={inProgress && settings.direction !== Direction.Ascending}
+          style={{width: '205px'}}
+        />
+        <Button
+          type="button"
+          text="По убыванию"
+          sorting={Direction.Descending}
+          onClick={toBeginDescending}
+          isLoader={inProgress && settings.direction === Direction.Descending}
+          disabled={inProgress && settings.direction !== Direction.Descending}
+          style={{width: '186px'}}
+        />
       </div>
 
       <Button text="Новый массив" onClick={createNewArr} disabled={inProgress} />
     </form>
 
-    <SortingAnimation data={array} setArray={setArray} settings={settings} inProgress={inProgress} setProgress={setProgress} />
+    <SortingAnimation data={array} settings={settings} inProgress={inProgress} setProgress={setProgress} />
   </SolutionLayout>
 );
 };

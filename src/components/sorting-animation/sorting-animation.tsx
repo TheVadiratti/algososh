@@ -6,13 +6,12 @@ import { sortBubble } from '../../utils/utils';
 
 type TProps = {
   data: TSortObj[];
-  setArray: React.Dispatch<React.SetStateAction<TSortObj[]>>;
   settings: TSortSettings;
   inProgress: boolean;
   setProgress: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function SortingAnimation ({ data, setArray, settings, inProgress, setProgress}: TProps) {
+export default function SortingAnimation ({ data, settings, inProgress, setProgress}: TProps) {
   const [arr, setArr] = React.useState<TSortObj[]>(data);
   React.useEffect(() => {
     setArr(data);
