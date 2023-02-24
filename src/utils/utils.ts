@@ -121,7 +121,12 @@ export const sortSelection = async (
   setArray: React.Dispatch<React.SetStateAction<TSortObj[]>>,
   setProgress: React.Dispatch<React.SetStateAction<boolean>> 
 ) => {
-  const newArr = array;
+  const newArr = array.map(item => {
+    return {
+      ...item,
+      state: ElementStates.Default
+    }
+  });
 
   for(let i = 0; i < newArr.length; i++) {
     let mostMaxMin = i;

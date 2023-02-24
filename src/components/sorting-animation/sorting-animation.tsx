@@ -4,6 +4,7 @@ import Styles from './sorting-animation.module.css';
 import { TSortObj, TSortSettings } from '../../types/types';
 import { sortBubble, sortSelection } from '../../utils/utils';
 import { SortTypes } from '../../types/sort-types';
+import { ElementStates } from '../../types/element-states';
 
 type TProps = {
   data: TSortObj[];
@@ -13,7 +14,7 @@ type TProps = {
 }
 
 export default function SortingAnimation ({ data, settings, inProgress, setProgress}: TProps) {
-  const [arr, setArr] = React.useState<TSortObj[]>(data);
+  const [arr, setArr] = React.useState<TSortObj[]>([]);
   React.useEffect(() => {
     setArr(data);
   }, [data]);
