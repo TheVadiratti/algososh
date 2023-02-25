@@ -1,16 +1,16 @@
 import React from "react"
 import { Circle } from "../ui/circle/circle";
 import Styles from './string-animation.module.css';
-import { TStringObj } from "../../types/types";
+import { TElement } from "../../types/types";
 import { getRecursionArray } from "./string-func";
 
 type TProps = {
-  data: TStringObj[];
+  data: TElement<string>[];
   setProgress: (value: React.SetStateAction<boolean>) => void;
 }
 
 export default function StringAnimation({ data, setProgress }: TProps) {
-  const [array, setArray] = React.useState<TStringObj[]>([]);
+  const [array, setArray] = React.useState<TElement<string>[]>([]);
 
   React.useEffect(() => {
     getRecursionArray(data, setArray, setProgress);

@@ -5,12 +5,12 @@ import { SolutionLayout } from "../../components/ui/solution-layout/solution-lay
 import Styles from './string.module.css';
 import StringAnimation from "../../components/string-animation/string-animation";
 import { ElementStates } from "../../types/element-states";
-import { TStringObj } from "../../types/types";
+import { TElement } from "../../types/types";
 
 export const StringComponent: React.FC = () => {
   const [inputValue, setInputValue] = React.useState<string>('');
   const [inProgress, setProgress] = React.useState<boolean>(false);
-  const [data, setData] = React.useState<TStringObj[]>([]);
+  const [data, setData] = React.useState<TElement<string>[]>([]);
   const [isShow, setIsShow] = React.useState<boolean>(false);
 
   const enterText = (e: React.ChangeEvent<HTMLInputElement>) => {

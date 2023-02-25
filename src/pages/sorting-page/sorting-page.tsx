@@ -6,12 +6,12 @@ import { Button } from "../../components/ui/button/button";
 import { Direction } from "../../types/direction";
 import SortingAnimation from "../../components/sorting-animation/sorting-animation";
 import { getRandomArr } from "../../utils/utils";
-import { TSortObj, TSortSettings } from "../../types/types";
+import { TElement, TSortSettings } from "../../types/types";
 import { SortTypes } from "../../types/sort-types";
 import { ElementStates } from "../../types/element-states";
 
 export const SortingPage: React.FC = () => {
-  const [array, setArray] = React.useState<TSortObj[]>([]);
+  const [array, setArray] = React.useState<TElement<number>[]>([]);
   const [inProgress, setProgress] = React.useState<boolean>(false);
   const [settings, setSettings] = React.useState<TSortSettings>({ type: SortTypes.Selection, direction: Direction.Ascending });
 

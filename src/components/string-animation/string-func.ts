@@ -1,11 +1,11 @@
 import { DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
-import { TStringObj } from "../../types/types";
+import { TElement } from "../../types/types";
 import { setDelay, swap } from "../../utils/utils";
 
 export const getRecursionArray = async (
-  array: TStringObj[],
-  setArray: React.Dispatch<React.SetStateAction<TStringObj[]>>,
+  array: TElement<string>[],
+  setArray: React.Dispatch<React.SetStateAction<TElement<string>[]>>,
   setProgress: (value: React.SetStateAction<boolean>) => void
 ) => {
 

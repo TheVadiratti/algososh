@@ -1,19 +1,19 @@
 import React from 'react';
 import { Column } from '../ui/column/column';
 import Styles from './sorting-animation.module.css';
-import { TSortObj, TSortSettings } from '../../types/types';
+import { TElement, TSortSettings } from '../../types/types';
 import { sortBubble, sortSelection } from './sorting-func';
 import { SortTypes } from '../../types/sort-types';
 
 type TProps = {
-  data: TSortObj[];
+  data: TElement<number>[];
   settings: TSortSettings;
   inProgress: boolean;
   setProgress: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function SortingAnimation ({ data, settings, inProgress, setProgress}: TProps) {
-  const [arr, setArr] = React.useState<TSortObj[]>([]);
+  const [arr, setArr] = React.useState<TElement<number>[]>([]);
   React.useEffect(() => {
     setArr(data);
   }, [data]);

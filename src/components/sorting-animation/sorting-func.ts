@@ -1,13 +1,13 @@
-import { TSortObj } from "../../types/types";
+import { TElement } from "../../types/types";
 import { Direction } from "../../types/direction";
 import { ElementStates } from "../../types/element-states";
 import { setDelay, swap } from "../../utils/utils";
 import { DELAY_IN_MS } from "../../constants/delays";
 
 export const sortBubble = async (
-  array: TSortObj[],
+  array: TElement<number>[],
   direction: Direction,
-  setArray: React.Dispatch<React.SetStateAction<TSortObj[]>>,
+  setArray: React.Dispatch<React.SetStateAction<TElement<number>[]>>,
   setProgress: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const res = array.map(item => {
@@ -51,9 +51,9 @@ export const sortBubble = async (
 }
 
 export const sortSelection = async (
-  array: TSortObj[],
+  array: TElement<number>[],
   direction: Direction,
-  setArray: React.Dispatch<React.SetStateAction<TSortObj[]>>,
+  setArray: React.Dispatch<React.SetStateAction<TElement<number>[]>>,
   setProgress: React.Dispatch<React.SetStateAction<boolean>> 
 ) => {
   const res = array.map(item => {
