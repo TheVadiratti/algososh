@@ -83,34 +83,40 @@ export const sortBubble = async (
 ) => {
   
   for(let i = array.length - 1; i >= 0; i--) {
-    const newArr = array;
+    const res = array.map(item => {
+      return {
+        ...item,
+        state: ElementStates.Default
+      }
+    });
+    
     for(let j = 0; j < i; j++) {
 
-      newArr[j].state = ElementStates.Changing;
-      newArr[j + 1].state = ElementStates.Changing;
-      setArray([...newArr]);
+      res[j].state = ElementStates.Changing;
+      res[j + 1].state = ElementStates.Changing;
+      setArray([...res]);
       await setDelay(DELAY_IN_MS);
 
       if(direction === Direction.Ascending) {
-        if(newArr[j].value > newArr[j + 1].value) {
-          swap(newArr, j, j + 1);
-          setArray([...newArr]);
+        if(res[j].value > res[j + 1].value) {
+          swap(res, j, j + 1);
+          setArray([...res]);
           await setDelay(DELAY_IN_MS);
         }
       }
       else {
-        if(newArr[j].value < newArr[j + 1].value) {
-          swap(newArr, j, j + 1);
-          setArray([...newArr]);
+        if(res[j].value < res[j + 1].value) {
+          swap(res, j, j + 1);
+          setArray([...res]);
           await setDelay(DELAY_IN_MS);
         }
       }  
 
-      newArr[j].state = ElementStates.Default;
-      newArr[j + 1].state = ElementStates.Default;
-      setArray([...newArr]);
+      res[j].state = ElementStates.Default;
+      res[j + 1].state = ElementStates.Default;
+      setArray([...res]);
     }
-    newArr[i].state = ElementStates.Modified;
+    res[i].state = ElementStates.Modified;
   }
   setProgress(false);
 }
@@ -121,43 +127,43 @@ export const sortSelection = async (
   setArray: React.Dispatch<React.SetStateAction<TSortObj[]>>,
   setProgress: React.Dispatch<React.SetStateAction<boolean>> 
 ) => {
-  const newArr = array.map(item => {
+  const res = array.map(item => {
     return {
       ...item,
       state: ElementStates.Default
     }
   });
 
-  for(let i = 0; i < newArr.length; i++) {
+  for(let i = 0; i < res.length; i++) {
     let mostMaxMin = i;
-    newArr[i].state = ElementStates.Changing;
-    setArray([...newArr]);
+    res[i].state = ElementStates.Changing;
+    setArray([...res]);
 
-    for(let j = i + 1; j < newArr.length; j++) {
+    for(let j = i + 1; j < res.length; j++) {
       
-      newArr[j].state = ElementStates.Changing;
-      setArray([...newArr]);
+      res[j].state = ElementStates.Changing;
+      setArray([...res]);
       await setDelay(DELAY_IN_MS);
       
       if(direction === Direction.Ascending) {
-        if(newArr[j].value < newArr[mostMaxMin].value) {
+        if(res[j].value < res[mostMaxMin].value) {
           mostMaxMin = j;
         }
       }
       // если в порядке убывания
       else {
-        if(newArr[j].value > newArr[mostMaxMin].value) {
+        if(res[j].value > res[mostMaxMin].value) {
           mostMaxMin = j;
         }
       }
-      newArr[j].state = ElementStates.Default;
-      setArray([...newArr]);
+      res[j].state = ElementStates.Default;
+      setArray([...res]);
     }
 
-    swap(newArr, i, mostMaxMin);
-    newArr[mostMaxMin].state = ElementStates.Default;
-    newArr[i].state = ElementStates.Modified;
-    setArray([...newArr]);
+    swap(res, i, mostMaxMin);
+    res[mostMaxMin].state = ElementStates.Default;
+    res[i].state = ElementStates.Modified;
+    setArray([...res]);
   }
   setProgress(false);
 }
