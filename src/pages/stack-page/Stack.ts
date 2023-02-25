@@ -3,6 +3,7 @@ interface IStack<T> {
   pop: () => void;
   get: () => T[];
   peak: () => T;
+  reset: () => void;
 }
 
 export class Stack<T> implements IStack<T> {
@@ -23,4 +24,8 @@ export class Stack<T> implements IStack<T> {
   peak = (): T => {
     return this.container[this.container.length - 1];
   }
+
+  reset = (): void => {
+    this.container = [];
+  };
 }

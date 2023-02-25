@@ -34,6 +34,7 @@ export const StackPage: React.FC = () => {
 
     newState[newState.length - 1].state = ElementStates.Default;
     setState([...newState]);
+    setInputValue('');
   }
 
   const deleteElement = async () => {
@@ -49,9 +50,15 @@ export const StackPage: React.FC = () => {
     setState([...newState]);
   }
 
+  const resetStack = () => {
+    stack.reset();
+    setState([]);
+    setInputValue('');
+  }
+
   return (
     <SolutionLayout title="Стек">
-      <form className={Styles.form}>
+      <form className={Styles.form} onReset={resetStack}>
         <Input
           maxLength={4}
           isLimitText={true}
@@ -59,9 +66,24 @@ export const StackPage: React.FC = () => {
           onChange={enterText}
           value={inputValue}
         />
-        <Button type="button" text="Добавить" onClick={addElement} />
-        <Button type="button" text="Удалить" onClick={deleteElement} />
-        <Button type="reset" text="Очистить" style={{ marginLeft: '68px' }} />
+        <Button
+          type="button"
+          text="Добавить"
+          onClick={addElement}
+          disabled={inputValue === ''}
+        />
+        <Button
+          type="button"
+          text="Удалить"
+          onClick={deleteElement}
+          disabled={!state.length}
+        />
+        <Button
+          type="reset"
+          text="Очистить"
+          style={{ marginLeft: '68px' }}
+          disabled={!state.length}
+        />
       </form>
       <div className={Styles.result}>
         {state.map((item, i) => {
