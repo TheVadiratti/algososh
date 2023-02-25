@@ -3,13 +3,37 @@ import Styles from './stack-page.module.css';
 import { Input } from "../../components/ui/input/input";
 import { SolutionLayout } from "../../components/ui/solution-layout/solution-layout";
 import { Button } from "../../components/ui/button/button";
-import StackAnimation from "../../components/stack-animation/stack-animation";
+import { Stack } from "./Stack";
+import { TElement } from "../../types/types";
+import { ElementStates } from "../../types/element-states";
+import { Circle } from "../../components/ui/circle/circle";
+import { setDelay } from "../../utils/utils";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const StackPage: React.FC = () => {
-  const [inputValue, setInputValue] = React.useState('');
+  const [inputValue, setInputValue] = React.useState<string>('');
+  const [state, setState] = React.useState<TElement<string>[]>([]);
+  const stack = new Stack<string>();
 
   const enterText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+  }
+
+  const addElement = async () => {
+    stack.push(inputValue);
+
+    const newState = state;
+    const newElement = {
+      value: stack.peak(),
+      state: ElementStates.Changing
+    };
+
+    newState.push(newElement);
+    setState([...newState]);
+    await setDelay(SHORT_DELAY_IN_MS);
+
+    newState[newState.length - 1].state = ElementStates.Default;
+    setState([...newState]);
   }
 
   return (
@@ -18,15 +42,27 @@ export const StackPage: React.FC = () => {
         <Input
           maxLength={4}
           isLimitText={true}
-          style={{width: '377px'}}
+          style={{ width: '377px' }}
           onChange={enterText}
           value={inputValue}
         />
-        <Button type="button" text="Добавить" />
+        <Button type="button" text="Добавить" onClick={addElement} />
         <Button type="button" text="Удалить" />
-        <Button type="reset" text="Очистить" style={{marginLeft: '68px'}} />
-        <StackAnimation />
+        <Button type="reset" text="Очистить" style={{ marginLeft: '68px' }} />
       </form>
+      <div className={Styles.result}>
+        {state.map((item, i) => {
+          return (
+            <Circle
+              letter={item.value}
+              state={item.state}
+              index={i}
+              head={state.length - 1 === i ? 'top' : ''}
+              key={i}
+            />
+          )
+        })}
+      </div>
     </SolutionLayout>
   );
 };
