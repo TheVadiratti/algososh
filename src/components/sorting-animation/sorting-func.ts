@@ -10,14 +10,14 @@ export const sortBubble = async (
   setArray: React.Dispatch<React.SetStateAction<TSortObj[]>>,
   setProgress: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
+  const res = array.map(item => {
+    return {
+      ...item,
+      state: ElementStates.Default
+    }
+  });
   
   for(let i = array.length - 1; i >= 0; i--) {
-    const res = array.map(item => {
-      return {
-        ...item,
-        state: ElementStates.Default
-      }
-    });
 
     for(let j = 0; j < i; j++) {
 
