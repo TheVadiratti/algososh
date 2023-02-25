@@ -36,6 +36,19 @@ export const StackPage: React.FC = () => {
     setState([...newState]);
   }
 
+  const deleteElement = async () => {
+    stack.pop();
+
+    const newState = state;
+
+    newState[newState.length - 1].state = ElementStates.Changing;
+    setState([...newState]);
+    await setDelay(SHORT_DELAY_IN_MS);
+
+    newState.pop();
+    setState([...newState]);
+  }
+
   return (
     <SolutionLayout title="Стек">
       <form className={Styles.form}>
@@ -47,7 +60,7 @@ export const StackPage: React.FC = () => {
           value={inputValue}
         />
         <Button type="button" text="Добавить" onClick={addElement} />
-        <Button type="button" text="Удалить" />
+        <Button type="button" text="Удалить" onClick={deleteElement} />
         <Button type="reset" text="Очистить" style={{ marginLeft: '68px' }} />
       </form>
       <div className={Styles.result}>
