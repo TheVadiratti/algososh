@@ -144,6 +144,7 @@ export const sortSelection = async (
           mostMaxMin = j;
         }
       }
+      // если в порядке убывания
       else {
         if(newArr[j].value > newArr[mostMaxMin].value) {
           mostMaxMin = j;
