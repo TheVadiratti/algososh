@@ -5,7 +5,7 @@ import { SolutionLayout } from "../../components/ui/solution-layout/solution-lay
 import { Button } from "../../components/ui/button/button";
 import { Direction } from "../../types/direction";
 import SortingAnimation from "../../components/sorting-animation/sorting-animation";
-import { randomArr } from "../../utils/utils";
+import { getRandomArr } from "../../utils/utils";
 import { TSortObj, TSortSettings } from "../../types/types";
 import { SortTypes } from "../../types/sort-types";
 import { ElementStates } from "../../types/element-states";
@@ -16,7 +16,7 @@ export const SortingPage: React.FC = () => {
   const [settings, setSettings] = React.useState<TSortSettings>({ type: SortTypes.Selection, direction: Direction.Ascending });
 
   const createNewArr = () => {
-    const newArr = randomArr().map(item => {
+    const newArr = getRandomArr().map(item => {
       return {
         value: item,
         state: ElementStates.Default

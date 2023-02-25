@@ -1,6 +1,6 @@
 import React from "react";
 import Styles from "./fibonacci-animation.module.css"
-import { fibonacciArray } from "../../utils/utils";
+import { getFibonacciNumbers } from "./fibonacci-func";
 import { Circle } from "../ui/circle/circle";
 
 type TProps = {
@@ -12,7 +12,7 @@ export default function FibonacciAnimation({ maxIndex, setProgress }: TProps) {
   const [array, setArray] = React.useState<string[]>([]);
 
   React.useEffect(() => {
-    fibonacciArray(maxIndex, setArray, setProgress);
+    getFibonacciNumbers(maxIndex, setArray, setProgress);
   }, [maxIndex]);
 
   return (

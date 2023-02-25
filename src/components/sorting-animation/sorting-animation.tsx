@@ -2,9 +2,8 @@ import React from 'react';
 import { Column } from '../ui/column/column';
 import Styles from './sorting-animation.module.css';
 import { TSortObj, TSortSettings } from '../../types/types';
-import { sortBubble, sortSelection } from '../../utils/utils';
+import { sortBubble, sortSelection } from './sorting-func';
 import { SortTypes } from '../../types/sort-types';
-import { ElementStates } from '../../types/element-states';
 
 type TProps = {
   data: TSortObj[];
