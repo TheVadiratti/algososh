@@ -10,10 +10,11 @@ import { Circle } from "../../components/ui/circle/circle";
 import { setDelay } from "../../utils/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
+const stack = new Stack<string>();
+
 export const StackPage: React.FC = () => {
   const [inputValue, setInputValue] = React.useState<string>('');
   const [state, setState] = React.useState<TElement<string>[]>([]);
-  const stack = new Stack<string>();
 
   const enterText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
