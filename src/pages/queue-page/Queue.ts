@@ -6,9 +6,9 @@ interface IQueue<T> {
 }
 
 export class Queue<T> implements IQueue<T> {
-  private container: (T | null)[] = [];
-  private head: number = 0;
-  private tail: number = 0;
+  container: (T | null)[] = [];
+  head: number = 0;
+  tail: number = 0;
   private readonly size: number = 0;
   private length: number = 0;
 
@@ -18,7 +18,7 @@ export class Queue<T> implements IQueue<T> {
   }
 
   enqueue = (item: T): void => {
-    if (this.container.length <= this.size) {
+    if (this.length < this.size) {
       this.container[this.tail] = item;
       this.tail++;
       this.length++;
