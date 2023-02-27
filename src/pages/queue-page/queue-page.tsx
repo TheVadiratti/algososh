@@ -8,14 +8,29 @@ import { TElement } from "../../types/types";
 import { Circle } from "../../components/ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 
-const queue = new Queue<TElement<string>>(7);
+const queue = new Queue<string>(7);
 
 export const QueuePage: React.FC = () => {
   const [inputValue, setInputValue] = React.useState<string>('');
   const [state, setState] = React.useState<(TElement<string> | null)[]>([]);
 
+  const convertQueue = (queue: Queue<string>) => {
+    return queue.container.map(item => {
+      if(item) {
+        return {
+          value: item,
+          state: ElementStates.Default
+        }
+      }
+      else {
+        return null;
+      }
+    })
+  }
+
   React.useEffect(() => {
-    setState([...queue.container]);
+    const initialState = convertQueue(queue);
+    setState([...initialState]);
   }, [])
 
   const enterText = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,11 +38,21 @@ export const QueuePage: React.FC = () => {
   }
 
   const addElement = () => {
-    queue.enqueue({
-      value: inputValue,
-      state: ElementStates.Default
-    });
-    setState([...queue.container]);
+    queue.enqueue(inputValue);
+    const newState = convertQueue(queue);
+    setState([...newState]);
+  }
+
+  const deleteElement = () => {
+    queue.dequeue();
+    const newState = convertQueue(queue);
+    setState([...newState]);
+  }
+
+  const resetQueue = () => {
+    queue.reset();
+    const newState = convertQueue(queue);
+    setState([...newState]);
   }
 
   return (
@@ -48,14 +73,13 @@ export const QueuePage: React.FC = () => {
         <Button
           type="button"
           text="Удалить"
-
-
+          onClick={deleteElement}
         />
         <Button
           type="reset"
           text="Очистить"
           style={{ marginLeft: '68px' }}
-
+          onClick={resetQueue}
         />
       </form>
       <div className={Styles.result}>

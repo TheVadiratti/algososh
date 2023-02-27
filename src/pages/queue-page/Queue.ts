@@ -29,7 +29,7 @@ export class Queue<T> implements IQueue<T> {
   }
 
   dequeue = (): void => {
-    if (this.container.length) {
+    if (this.length) {
       this.container[this.head] = null;
       this.head++;
       this.length--;
