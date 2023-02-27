@@ -29,10 +29,15 @@ export class Queue<T> implements IQueue<T> {
   }
 
   dequeue = (): void => {
-    if (this.length) {
+    if (!this.isEmpty()) {
       this.container[this.head] = null;
-      this.head++;
+      if(this.head + 1 < this.tail) {
+        this.head++;
+      }
       this.length--;
+      if(this.isEmpty()) {
+        this.tail = this.head;
+      }
     }
     else {
       console.log('Queue is empty');
@@ -43,6 +48,7 @@ export class Queue<T> implements IQueue<T> {
     this.container = Array(this.size);
     this.head = 0;
     this.tail = 0;
+    this.length = 0;
   };
 
   isEmpty = (): boolean => {

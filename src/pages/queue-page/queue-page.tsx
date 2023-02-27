@@ -7,6 +7,8 @@ import { Queue } from "./Queue";
 import { TElement } from "../../types/types";
 import { Circle } from "../../components/ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
+import { setDelay } from "../../utils/utils";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 const queue = new Queue<string>(7);
 
@@ -37,15 +39,28 @@ export const QueuePage: React.FC = () => {
     setInputValue(e.target.value);
   }
 
-  const addElement = () => {
+  const addElement = async () => {
     queue.enqueue(inputValue);
+    setInputValue('');
+
     const newState = convertQueue(queue);
+    newState[queue.tail - 1]!.state = ElementStates.Changing;
+    setState([...newState]);
+    await setDelay(SHORT_DELAY_IN_MS);
+
+    newState[queue.tail - 1]!.state = ElementStates.Default;
     setState([...newState]);
   }
 
-  const deleteElement = () => {
+  const deleteElement = async () => {
+    let newState = convertQueue(queue);
+
+    newState[queue.head]!.state = ElementStates.Changing;
+    setState([...newState]);
+    await setDelay(SHORT_DELAY_IN_MS);
+
     queue.dequeue();
-    const newState = convertQueue(queue);
+    newState = convertQueue(queue);
     setState([...newState]);
   }
 
@@ -57,7 +72,7 @@ export const QueuePage: React.FC = () => {
 
   return (
     <SolutionLayout title="Очередь">
-      <form className={Styles.form} >
+      <form className={Styles.form} onReset={resetQueue}>
         <Input
           maxLength={4}
           isLimitText={true}
@@ -69,17 +84,19 @@ export const QueuePage: React.FC = () => {
           type="button"
           text="Добавить"
           onClick={addElement}
+          disabled={inputValue === ''}
         />
         <Button
           type="button"
           text="Удалить"
           onClick={deleteElement}
+          disabled={queue.isEmpty()}
         />
         <Button
           type="reset"
           text="Очистить"
           style={{ marginLeft: '68px' }}
-          onClick={resetQueue}
+          disabled={queue.isEmpty()}
         />
       </form>
       <div className={Styles.result}>
@@ -89,7 +106,7 @@ export const QueuePage: React.FC = () => {
               letter={item?.value}
               state={item?.state}
               head={queue.head === i ? 'head' : ''}
-              tail={queue.tail - 1 === i ? 'tail' : ''}
+              tail={queue.tail - 1 === i && !queue.isEmpty() ? 'tail' : ''}
               index={i}
               key={i}
             />
