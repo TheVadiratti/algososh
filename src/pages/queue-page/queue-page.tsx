@@ -18,7 +18,7 @@ export const QueuePage: React.FC = () => {
 
   const convertQueue = (queue: Queue<string>) => {
     return queue.container.map(item => {
-      if(item) {
+      if (item) {
         return {
           value: item,
           state: ElementStates.Default
@@ -42,7 +42,7 @@ export const QueuePage: React.FC = () => {
   const addElement = async () => {
     queue.enqueue(inputValue);
     setInputValue('');
-
+    
     const newState = convertQueue(queue);
     newState[queue.tail - 1]!.state = ElementStates.Changing;
     setState([...newState]);
@@ -96,7 +96,7 @@ export const QueuePage: React.FC = () => {
           type="reset"
           text="Очистить"
           style={{ marginLeft: '68px' }}
-          disabled={queue.isEmpty()}
+          disabled={queue.tail === 0}
         />
       </form>
       <div className={Styles.result}>
