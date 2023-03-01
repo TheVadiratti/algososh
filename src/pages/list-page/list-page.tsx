@@ -56,6 +56,25 @@ export const ListPage: React.FC = () => {
     setInputValue('');
   }
 
+  const addAtTail = async () => {
+    let newState = state;
+
+    newState[newState.length - 1].head = Circle({state: ElementStates.Changing, letter: inputValue, isSmall: true});
+    setState([...newState]);
+    await setDelay(SHORT_DELAY_IN_MS);
+
+    list.append(inputValue);
+    newState = convertList(list);
+    newState[newState.length - 1].state = ElementStates.Modified;
+    setState([...newState]);
+    await setDelay(SHORT_DELAY_IN_MS);
+
+    newState[newState.length - 1].state = ElementStates.Default;
+    setState([...newState]);
+
+    setInputValue('');
+  }
+
   const enterValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   }
@@ -86,6 +105,7 @@ export const ListPage: React.FC = () => {
             type="button"
             text="Добавить в tail"
             extraClass={Styles.smallButton}
+            onClick={addAtTail}
           />
           <Button
             type="button"
