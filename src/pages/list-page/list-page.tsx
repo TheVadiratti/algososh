@@ -132,7 +132,26 @@ export const ListPage: React.FC = () => {
   const addAtIndex = async () => {
     setProgress({ inProgress: true, type: 'addAtIndex' });
 
+    const targetIndex = Number(inputIndex);
+    let newState = state;
 
+    for(let i = 0; i <= targetIndex; i++) {
+      newState[i].state = ElementStates.Changing;
+      const tmp = newState[i].head;
+      newState[i].head = Circle({ state: ElementStates.Changing, letter: inputValue, isSmall: true });
+      setState([...newState]);
+      await setDelay(SHORT_DELAY_IN_MS);
+      newState[i].head = tmp;
+      setState([...newState]);
+    }
+    list.insertAt(inputValue, targetIndex);
+    newState = convertList(list);
+    newState[targetIndex].state = ElementStates.Modified;
+    setState([...newState]);
+    await setDelay(SHORT_DELAY_IN_MS);
+    
+    newState[targetIndex].state = ElementStates.Default;
+    setState([...newState]);
 
     setProgress({ inProgress: false, type: null });
   }
@@ -155,7 +174,7 @@ export const ListPage: React.FC = () => {
             extraClass={Styles.smallButton}
             onClick={addAtHead}
             isLoader={progress.type === 'addAtHead'}
-            disabled={(progress.inProgress && progress.type !== 'addAtHead') || inputValue === ''}
+            disabled={(progress.inProgress && progress.type !== 'addAtHead') || !inputValue.length}
           />
           <Button
             type="button"
@@ -163,7 +182,7 @@ export const ListPage: React.FC = () => {
             extraClass={Styles.smallButton}
             onClick={addAtTail}
             isLoader={progress.type === 'addAtTail'}
-            disabled={(progress.inProgress && progress.type !== 'addAtTail') || inputValue === ''}
+            disabled={(progress.inProgress && progress.type !== 'addAtTail') || !inputValue.length}
           />
           <Button
             type="button"
@@ -195,14 +214,14 @@ export const ListPage: React.FC = () => {
             extraClass={Styles.largeButton}
             onClick={addAtIndex}
             isLoader={progress.type === 'addAtIndex'}
-            disabled={progress.inProgress && progress.type !== 'addAtIndex'}
+            disabled={progress.inProgress && progress.type !== 'addAtIndex' || !inputIndex.length}
           />
           <Button
             type="button"
             text="Удалить по индексу"
             extraClass={Styles.largeButton}
             isLoader={progress.type === 'deleteAtIndex'}
-            disabled={progress.inProgress && progress.type !== 'deleteAtIndex'}
+            disabled={progress.inProgress && progress.type !== 'deleteAtIndex' || !inputIndex.length}
           />
         </fieldset>
       </form>
