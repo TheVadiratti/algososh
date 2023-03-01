@@ -17,8 +17,10 @@ list.append('1');
 
 export const ListPage: React.FC = () => {
   const [state, setState] = React.useState<TElement<string>[]>([]);
+  const [inputValue, setInputValue] = React.useState<string>('');
+  const [inputIndex, setInputIndex] = React.useState<string>('');
 
-  const convertQueue = (list: List<string>) => {
+  const convertList = (list: List<string>) => {
     return list.getElements().map(item => {
       return {
         value: item,
@@ -28,9 +30,17 @@ export const ListPage: React.FC = () => {
   }
 
   React.useEffect(() => {
-    const initialState = convertQueue(list);
+    const initialState = convertList(list);
     setState([...initialState]);
   }, [])
+
+  const enterValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  }
+
+  const enterIndex = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputIndex(e.target.value);
+  }
 
   return (
     <SolutionLayout title="Связный список">
@@ -41,6 +51,8 @@ export const ListPage: React.FC = () => {
             isLimitText={true}
             placeholder="Введите значение"
             extraClass={Styles.input}
+            onChange={enterValue}
+            value={inputValue}
           />
           <Button
             type="button"
@@ -67,6 +79,8 @@ export const ListPage: React.FC = () => {
           <Input
             placeholder="Введите индекс"
             extraClass={Styles.input}
+            onChange={enterIndex}
+            value={inputIndex}
           />
           <Button
             type="button"
