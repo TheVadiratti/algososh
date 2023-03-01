@@ -8,6 +8,8 @@ import { TElement } from "../../types/types";
 import { ElementStates } from "../../types/element-states";
 import { Circle } from "../../components/ui/circle/circle";
 import { ArrowIcon } from "../../components/ui/icons/arrow-icon";
+import { setDelay } from "../../utils/utils";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 const list = new List<string>();
 list.append('0');
@@ -21,10 +23,11 @@ export const ListPage: React.FC = () => {
   const [inputIndex, setInputIndex] = React.useState<string>('');
 
   const convertList = (list: List<string>) => {
-    return list.getElements().map(item => {
+    return list.getElements().map((item, i) => {
       return {
         value: item,
-        state: ElementStates.Default
+        state: ElementStates.Default,
+        head: i === 0 ? 'head' : null
       }
     })
   }
@@ -33,6 +36,25 @@ export const ListPage: React.FC = () => {
     const initialState = convertList(list);
     setState([...initialState]);
   }, [])
+
+  const addAtHead = async () => {
+    let newState = state;
+
+    newState[0].head = Circle({state: ElementStates.Changing, letter: inputValue, isSmall: true});
+    setState([...newState]);
+    await setDelay(SHORT_DELAY_IN_MS);
+
+    list.prepend(inputValue);
+    newState = convertList(list);
+    newState[0].state = ElementStates.Modified;
+    setState([...newState]);
+    await setDelay(SHORT_DELAY_IN_MS);
+
+    newState[0].state = ElementStates.Default;
+    setState([...newState]);
+
+    setInputValue('');
+  }
 
   const enterValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -58,6 +80,7 @@ export const ListPage: React.FC = () => {
             type="button"
             text="Добавить в head"
             extraClass={Styles.smallButton}
+            onClick={addAtHead}
           />
           <Button
             type="button"
@@ -101,7 +124,7 @@ export const ListPage: React.FC = () => {
               <Circle
                 letter={item.value}
                 state={item.state}
-                head={i === 0 ? 'head' : ''}
+                head={item.head}
                 tail={i === state.length - 1 ? 'tail' : ''}
                 index={i}
               />
