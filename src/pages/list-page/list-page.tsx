@@ -29,7 +29,8 @@ export const ListPage: React.FC = () => {
       return {
         value: item,
         state: ElementStates.Default,
-        head: i === 0 ? 'head' : null
+        head: i === 0 ? 'head' : null,
+        tail: null
       }
     })
   }
@@ -153,6 +154,34 @@ export const ListPage: React.FC = () => {
     newState[targetIndex].state = ElementStates.Default;
     setState([...newState]);
 
+    setInputValue('');
+    setInputIndex('');
+    setProgress({ inProgress: false, type: null });
+  }
+
+  const deleteAtIndex = async () => {
+    setProgress({ inProgress: true, type: 'deleteAtIndex' });
+
+    const targetIndex = Number(inputIndex);
+    let newState = state;
+
+    for(let i = 0; i <= targetIndex; i++) {
+      newState[i].state = ElementStates.Changing;
+      setState([...newState]);
+      await setDelay(SHORT_DELAY_IN_MS);
+    }
+
+    const tmp = newState[targetIndex].value;
+    newState[targetIndex].value = '';
+    newState[targetIndex].tail = Circle({ state: ElementStates.Changing, letter: tmp, isSmall: true });
+    setState([...newState]);
+    await setDelay(SHORT_DELAY_IN_MS);
+
+    list.cutAt(targetIndex);
+    newState = convertList(list);
+    setState([...newState]);
+
+    setInputIndex('');
     setProgress({ inProgress: false, type: null });
   }
 
@@ -214,12 +243,13 @@ export const ListPage: React.FC = () => {
             extraClass={Styles.largeButton}
             onClick={addAtIndex}
             isLoader={progress.type === 'addAtIndex'}
-            disabled={progress.inProgress && progress.type !== 'addAtIndex' || !inputIndex.length}
+            disabled={progress.inProgress && progress.type !== 'addAtIndex' || !inputIndex.length || !inputValue}
           />
           <Button
             type="button"
             text="Удалить по индексу"
             extraClass={Styles.largeButton}
+            onClick={deleteAtIndex}
             isLoader={progress.type === 'deleteAtIndex'}
             disabled={progress.inProgress && progress.type !== 'deleteAtIndex' || !inputIndex.length}
           />
@@ -233,7 +263,7 @@ export const ListPage: React.FC = () => {
                 letter={item.value}
                 state={item.state}
                 head={item.head}
-                tail={i === state.length - 1 && state.length > 1 ? 'tail' : ''}
+                tail={item.tail ? item.tail : (i === state.length - 1 && state.length > 1 ? 'tail' : '')}
                 index={i}
               />
               {i !== state.length - 1 && (

@@ -9,6 +9,7 @@ export type TElement<T> = {
   isHead?: boolean;
   isTail?: boolean;
   head?: React.ReactElement | string | null;
+  tail?: React.ReactElement | string | null;
 };
 
 export type TSortSettings = {
