@@ -1,0 +1,9 @@
+.result {
+  width: fit-content;
+  margin: auto;
+  margin-top: 120px;
+  display: flex;
+  column-gap: 16px;
+  row-gap: 35px;
+  flex-wrap: wrap;
+}

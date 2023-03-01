@@ -1,0 +1,9 @@
+.result {
+  width: fit-content;
+  margin: auto;
+  margin-top: 48px;
+  display: flex;
+  align-items: end;
+  gap: 16px;
+  flex-wrap: wrap;
+}

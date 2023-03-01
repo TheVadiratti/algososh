@@ -1,0 +1,19 @@
+.form {
+  width: fit-content;
+  display: flex;
+  margin: auto;
+}
+
+.typeCnt {
+  margin-right: 40px;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.directionCnt {
+  margin-right: 80px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}

@@ -1,0 +1,6 @@
+.form {
+  width: fit-content;
+  margin: auto;
+  display: flex;
+  gap: 12px;
+}
