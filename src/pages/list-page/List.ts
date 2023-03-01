@@ -90,18 +90,26 @@ export class List<T> implements IList<T> {
       return;
     }
     else {
-      let current = this.head;
-      let currentIndex = 0;
-      let prev = this.head;
-
-      while (currentIndex < atIndex) {
-        // в уроке реализованно по другому
-        prev = current;
-        current = current!.next;
-        currentIndex++;
+      if (atIndex === 0) {
+        if(this.head) {
+          this.head = this.head.next
+        } 
       }
-      prev!.next = current!.next;
+      else {
+        let current = this.head;
+        let currentIndex = 0;
+        let prev = this.head;
+
+        while (currentIndex < atIndex) {
+          // в уроке реализованно по другому
+          prev = current;
+          current = current!.next;
+          currentIndex++;
+        }
+        prev!.next = current!.next;
+      }
     }
+    this.size--;
   }
 
   getSize = () => this.size;

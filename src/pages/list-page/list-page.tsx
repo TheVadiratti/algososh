@@ -37,6 +37,14 @@ export const ListPage: React.FC = () => {
     setState([...initialState]);
   }, [])
 
+  const enterValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  }
+
+  const enterIndex = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputIndex(e.target.value);
+  }
+
   const addAtHead = async () => {
     let newState = state;
 
@@ -75,12 +83,28 @@ export const ListPage: React.FC = () => {
     setInputValue('');
   }
 
-  const enterValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+  const deleteHead = async () => {
+    let newState = state;
+
+    newState[0].head = Circle({state: ElementStates.Changing, letter: newState[0].value, isSmall: true});
+    newState[0].value = '';
+    setState([...newState]);
+    await setDelay(SHORT_DELAY_IN_MS);
+    list.cutAt(0);
+    newState = convertList(list);
+    setState([...newState]);
   }
 
-  const enterIndex = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputIndex(e.target.value);
+  const deleteTail = async () => {
+    let newState = state;
+
+    newState[newState.length - 1].head = Circle({state: ElementStates.Changing, letter: newState[newState.length - 1].value, isSmall: true});
+    newState[newState.length - 1].value = '';
+    setState([...newState]);
+    await setDelay(SHORT_DELAY_IN_MS);
+    list.cutAt(newState.length - 1);
+    newState = convertList(list);
+    setState([...newState]);
   }
 
   return (
@@ -111,11 +135,13 @@ export const ListPage: React.FC = () => {
             type="button"
             text="Удалить из head"
             extraClass={Styles.smallButton}
+            onClick={deleteHead}
           />
           <Button
             type="button"
             text="Удалить из tail"
             extraClass={Styles.smallButton}
+            onClick={deleteTail}
           />
         </fieldset>
         <fieldset className={Styles.fieldset}>
