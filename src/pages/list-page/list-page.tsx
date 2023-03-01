@@ -20,7 +20,7 @@ list.append('1');
 
 export const ListPage: React.FC = () => {
   const [state, setState] = React.useState<TElement<string>[]>([]);
-  const [progress, setProgress] = React.useState<TProgress>({inProgress: false, type: null});
+  const [progress, setProgress] = React.useState<TProgress>({ inProgress: false, type: null });
   const [inputValue, setInputValue] = React.useState<string>('');
   const [inputIndex, setInputIndex] = React.useState<string>('');
 
@@ -48,13 +48,16 @@ export const ListPage: React.FC = () => {
   }
 
   const addAtHead = async () => {
-    setProgress({inProgress: true, type: 'addAtHead'});
+    setProgress({ inProgress: true, type: 'addAtHead' });
 
     let newState = state;
 
-    newState[0].head = Circle({state: ElementStates.Changing, letter: inputValue, isSmall: true});
-    setState([...newState]);
-    await setDelay(SHORT_DELAY_IN_MS);
+    // анимация с маленьким кругом, только если в списке есть элементы
+    if (state.length) {
+      newState[0].head = Circle({ state: ElementStates.Changing, letter: inputValue, isSmall: true });
+      setState([...newState]);
+      await setDelay(SHORT_DELAY_IN_MS);
+    }
 
     list.prepend(inputValue);
     newState = convertList(list);
@@ -66,17 +69,20 @@ export const ListPage: React.FC = () => {
     setState([...newState]);
 
     setInputValue('');
-    setProgress({inProgress: false, type: null});
+    setProgress({ inProgress: false, type: null });
   }
 
   const addAtTail = async () => {
-    setProgress({inProgress: true, type: 'addAtTail'});
+    setProgress({ inProgress: true, type: 'addAtTail' });
 
     let newState = state;
 
-    newState[newState.length - 1].head = Circle({state: ElementStates.Changing, letter: inputValue, isSmall: true});
-    setState([...newState]);
-    await setDelay(SHORT_DELAY_IN_MS);
+    // анимация с маленьким кругом, только если в списке есть элементы
+    if (state.length) {
+      newState[newState.length - 1].head = Circle({ state: ElementStates.Changing, letter: inputValue, isSmall: true });
+      setState([...newState]);
+      await setDelay(SHORT_DELAY_IN_MS);
+    }
 
     list.append(inputValue);
     newState = convertList(list);
@@ -88,15 +94,15 @@ export const ListPage: React.FC = () => {
     setState([...newState]);
 
     setInputValue('');
-    setProgress({inProgress: false, type: null});
+    setProgress({ inProgress: false, type: null });
   }
 
   const deleteHead = async () => {
-    setProgress({inProgress: true, type: 'deleteHead'});
+    setProgress({ inProgress: true, type: 'deleteHead' });
 
     let newState = state;
 
-    newState[0].head = Circle({state: ElementStates.Changing, letter: newState[0].value, isSmall: true});
+    newState[0].head = Circle({ state: ElementStates.Changing, letter: newState[0].value, isSmall: true });
     newState[0].value = '';
     setState([...newState]);
     await setDelay(SHORT_DELAY_IN_MS);
@@ -104,15 +110,15 @@ export const ListPage: React.FC = () => {
     newState = convertList(list);
     setState([...newState]);
 
-    setProgress({inProgress: false, type: null});
+    setProgress({ inProgress: false, type: null });
   }
 
   const deleteTail = async () => {
-    setProgress({inProgress: true, type: 'deleteHead'});
+    setProgress({ inProgress: true, type: 'deleteHead' });
 
     let newState = state;
 
-    newState[newState.length - 1].head = Circle({state: ElementStates.Changing, letter: newState[newState.length - 1].value, isSmall: true});
+    newState[newState.length - 1].head = Circle({ state: ElementStates.Changing, letter: newState[newState.length - 1].value, isSmall: true });
     newState[newState.length - 1].value = '';
     setState([...newState]);
     await setDelay(SHORT_DELAY_IN_MS);
@@ -120,7 +126,15 @@ export const ListPage: React.FC = () => {
     newState = convertList(list);
     setState([...newState]);
 
-    setProgress({inProgress: false, type: null});
+    setProgress({ inProgress: false, type: null });
+  }
+
+  const addAtIndex = async () => {
+    setProgress({ inProgress: true, type: 'addAtIndex' });
+
+
+
+    setProgress({ inProgress: false, type: null });
   }
 
   return (
@@ -157,7 +171,7 @@ export const ListPage: React.FC = () => {
             extraClass={Styles.smallButton}
             onClick={deleteHead}
             isLoader={progress.type === 'deleteHead'}
-            disabled={progress.inProgress && progress.type !== 'deleteHead'}
+            disabled={(progress.inProgress && progress.type !== 'deleteHead') || !state.length}
           />
           <Button
             type="button"
@@ -165,7 +179,7 @@ export const ListPage: React.FC = () => {
             extraClass={Styles.smallButton}
             onClick={deleteTail}
             isLoader={progress.type === 'deleteTail'}
-            disabled={progress.inProgress && progress.type !== 'deleteTail'}
+            disabled={(progress.inProgress && progress.type !== 'deleteTail') || !state.length}
           />
         </fieldset>
         <fieldset className={Styles.fieldset}>
@@ -179,11 +193,16 @@ export const ListPage: React.FC = () => {
             type="button"
             text="Добавить по индексу"
             extraClass={Styles.largeButton}
+            onClick={addAtIndex}
+            isLoader={progress.type === 'addAtIndex'}
+            disabled={progress.inProgress && progress.type !== 'addAtIndex'}
           />
           <Button
             type="button"
             text="Удалить по индексу"
             extraClass={Styles.largeButton}
+            isLoader={progress.type === 'deleteAtIndex'}
+            disabled={progress.inProgress && progress.type !== 'deleteAtIndex'}
           />
         </fieldset>
       </form>
@@ -195,7 +214,7 @@ export const ListPage: React.FC = () => {
                 letter={item.value}
                 state={item.state}
                 head={item.head}
-                tail={i === state.length - 1 ? 'tail' : ''}
+                tail={i === state.length - 1 && state.length > 1 ? 'tail' : ''}
                 index={i}
               />
               {i !== state.length - 1 && (
