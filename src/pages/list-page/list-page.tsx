@@ -10,6 +10,7 @@ import { Circle } from "../../components/ui/circle/circle";
 import { ArrowIcon } from "../../components/ui/icons/arrow-icon";
 import { setDelay } from "../../utils/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { TProgress } from "../../types/list";
 
 const list = new List<string>();
 list.append('0');
@@ -19,6 +20,7 @@ list.append('1');
 
 export const ListPage: React.FC = () => {
   const [state, setState] = React.useState<TElement<string>[]>([]);
+  const [progress, setProgress] = React.useState<TProgress>({inProgress: false, type: null});
   const [inputValue, setInputValue] = React.useState<string>('');
   const [inputIndex, setInputIndex] = React.useState<string>('');
 
@@ -46,6 +48,8 @@ export const ListPage: React.FC = () => {
   }
 
   const addAtHead = async () => {
+    setProgress({inProgress: true, type: 'addAtHead'});
+
     let newState = state;
 
     newState[0].head = Circle({state: ElementStates.Changing, letter: inputValue, isSmall: true});
@@ -62,9 +66,12 @@ export const ListPage: React.FC = () => {
     setState([...newState]);
 
     setInputValue('');
+    setProgress({inProgress: false, type: null});
   }
 
   const addAtTail = async () => {
+    setProgress({inProgress: true, type: 'addAtTail'});
+
     let newState = state;
 
     newState[newState.length - 1].head = Circle({state: ElementStates.Changing, letter: inputValue, isSmall: true});
@@ -81,9 +88,12 @@ export const ListPage: React.FC = () => {
     setState([...newState]);
 
     setInputValue('');
+    setProgress({inProgress: false, type: null});
   }
 
   const deleteHead = async () => {
+    setProgress({inProgress: true, type: 'deleteHead'});
+
     let newState = state;
 
     newState[0].head = Circle({state: ElementStates.Changing, letter: newState[0].value, isSmall: true});
@@ -93,9 +103,13 @@ export const ListPage: React.FC = () => {
     list.cutAt(0);
     newState = convertList(list);
     setState([...newState]);
+
+    setProgress({inProgress: false, type: null});
   }
 
   const deleteTail = async () => {
+    setProgress({inProgress: true, type: 'deleteHead'});
+
     let newState = state;
 
     newState[newState.length - 1].head = Circle({state: ElementStates.Changing, letter: newState[newState.length - 1].value, isSmall: true});
@@ -105,6 +119,8 @@ export const ListPage: React.FC = () => {
     list.cutAt(newState.length - 1);
     newState = convertList(list);
     setState([...newState]);
+
+    setProgress({inProgress: false, type: null});
   }
 
   return (
@@ -124,24 +140,32 @@ export const ListPage: React.FC = () => {
             text="Добавить в head"
             extraClass={Styles.smallButton}
             onClick={addAtHead}
+            isLoader={progress.type === 'addAtHead'}
+            disabled={(progress.inProgress && progress.type !== 'addAtHead') || inputValue === ''}
           />
           <Button
             type="button"
             text="Добавить в tail"
             extraClass={Styles.smallButton}
             onClick={addAtTail}
+            isLoader={progress.type === 'addAtTail'}
+            disabled={(progress.inProgress && progress.type !== 'addAtTail') || inputValue === ''}
           />
           <Button
             type="button"
             text="Удалить из head"
             extraClass={Styles.smallButton}
             onClick={deleteHead}
+            isLoader={progress.type === 'deleteHead'}
+            disabled={progress.inProgress && progress.type !== 'deleteHead'}
           />
           <Button
             type="button"
             text="Удалить из tail"
             extraClass={Styles.smallButton}
             onClick={deleteTail}
+            isLoader={progress.type === 'deleteTail'}
+            disabled={progress.inProgress && progress.type !== 'deleteTail'}
           />
         </fieldset>
         <fieldset className={Styles.fieldset}>
