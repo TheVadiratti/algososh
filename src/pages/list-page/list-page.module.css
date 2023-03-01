@@ -31,6 +31,13 @@
   width: fit-content;
   display: flex;
   margin: auto;
-  margin-top: 48px;
-  gap: 16px;
+  margin-top: 120px;
+  gap: 21.59px;
+  list-style-type: none;
+}
+
+.element {
+  display: flex;
+  align-items: center;
+  gap: 25px;
 }

@@ -7,6 +7,7 @@ import { List } from "./List";
 import { TElement } from "../../types/types";
 import { ElementStates } from "../../types/element-states";
 import { Circle } from "../../components/ui/circle/circle";
+import { ArrowIcon } from "../../components/ui/icons/arrow-icon";
 
 const list = new List<string>();
 list.append('0');
@@ -79,20 +80,24 @@ export const ListPage: React.FC = () => {
           />
         </fieldset>
       </form>
-      <div className={Styles.result}>
+      <ul className={Styles.result}>
         {state.map((item, i) => {
           return (
-            <Circle
-              letter={item.value}
-              state={item.state}
-              head={i === 0 ? 'head' : ''}
-              tail={i === state.length - 1 ? 'tail' : ''}
-              index={i}
-              key={i}
-            />
+            <li className={Styles.element} key={i}>
+              <Circle
+                letter={item.value}
+                state={item.state}
+                head={i === 0 ? 'head' : ''}
+                tail={i === state.length - 1 ? 'tail' : ''}
+                index={i}
+              />
+              {i !== state.length - 1 && (
+                <ArrowIcon />
+              )}
+            </li>
           )
         })}
-      </div>
+      </ul>
     </SolutionLayout>
   );
 };
