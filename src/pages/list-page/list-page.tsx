@@ -43,12 +43,12 @@ export const ListPage: React.FC = () => {
           />
           <Button
             type="button"
-            text="Добавить в head"
+            text="Добавить по индексу"
             extraClass={Styles.largeButton}
           />
           <Button
             type="button"
-            text="Добавить в tail"
+            text="Удалить по индексу"
             extraClass={Styles.largeButton}
           />
         </fieldset>
