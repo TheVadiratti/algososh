@@ -79,24 +79,28 @@ export const QueuePage: React.FC = () => {
           style={{ width: '377px' }}
           onChange={enterText}
           value={inputValue}
+          data-cy="input"
         />
         <Button
           type="button"
           text="Добавить"
           onClick={addElement}
           disabled={inputValue === ''}
+          data-cy="button-add"
         />
         <Button
           type="button"
           text="Удалить"
           onClick={deleteElement}
           disabled={queue.isEmpty()}
+          data-cy="button-delete"
         />
         <Button
           type="reset"
           text="Очистить"
           style={{ marginLeft: '68px' }}
           disabled={queue.tail === 0}
+          data-cy="button-reset"
         />
       </form>
       <div className={Styles.result}>
