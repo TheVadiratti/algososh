@@ -87,5 +87,9 @@ describe('stack test', () => {
     cy.get('[data-cy="button-reset"]').click();
 
     cy.get('[class*=circle_circle]').should('have.length', 0);
+
+    cy.get('[data-cy="button-add"]').should('be.disabled');
+    cy.get('[data-cy="button-delete"]').should('be.disabled');
+    cy.get('[data-cy="button-reset"]').should('be.disabled');
   })
 })
