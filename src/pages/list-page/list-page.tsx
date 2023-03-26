@@ -196,6 +196,7 @@ export const ListPage: React.FC = () => {
             extraClass={Styles.input}
             onChange={enterValue}
             value={inputValue}
+            data-cy="input-value"
           />
           <Button
             type="button"
@@ -204,6 +205,7 @@ export const ListPage: React.FC = () => {
             onClick={addAtHead}
             isLoader={progress.type === 'addAtHead'}
             disabled={(progress.inProgress && progress.type !== 'addAtHead') || !inputValue.length}
+            data-cy="button-add-head"
           />
           <Button
             type="button"
@@ -212,6 +214,7 @@ export const ListPage: React.FC = () => {
             onClick={addAtTail}
             isLoader={progress.type === 'addAtTail'}
             disabled={(progress.inProgress && progress.type !== 'addAtTail') || !inputValue.length}
+            data-cy="button-add-tail"
           />
           <Button
             type="button"
@@ -220,6 +223,7 @@ export const ListPage: React.FC = () => {
             onClick={deleteHead}
             isLoader={progress.type === 'deleteHead'}
             disabled={(progress.inProgress && progress.type !== 'deleteHead') || !state.length}
+            data-cy="button-delete-head"
           />
           <Button
             type="button"
@@ -228,6 +232,7 @@ export const ListPage: React.FC = () => {
             onClick={deleteTail}
             isLoader={progress.type === 'deleteTail'}
             disabled={(progress.inProgress && progress.type !== 'deleteTail') || !state.length}
+            data-cy="button-delete-tail"
           />
         </fieldset>
         <fieldset className={Styles.fieldset}>
@@ -236,6 +241,7 @@ export const ListPage: React.FC = () => {
             extraClass={Styles.input}
             onChange={enterIndex}
             value={inputIndex}
+            data-cy="input-index"
           />
           <Button
             type="button"
@@ -244,6 +250,7 @@ export const ListPage: React.FC = () => {
             onClick={addAtIndex}
             isLoader={progress.type === 'addAtIndex'}
             disabled={progress.inProgress && progress.type !== 'addAtIndex' || !inputIndex.length || !inputValue}
+            data-cy="button-add-byindex"
           />
           <Button
             type="button"
@@ -252,6 +259,7 @@ export const ListPage: React.FC = () => {
             onClick={deleteAtIndex}
             isLoader={progress.type === 'deleteAtIndex'}
             disabled={progress.inProgress && progress.type !== 'deleteAtIndex' || !inputIndex.length}
+            data-cy="button-delete-byindex"
           />
         </fieldset>
       </form>
