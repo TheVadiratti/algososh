@@ -86,7 +86,7 @@ describe('list test', () => {
 
     cy.wait(SHORT_DELAY_IN_MS);
 
-    getCircle().each((el, i) => {
+    getCircle().should('have.length', 5).each((el, i) => {
       if (i === 0) circleIsDefault(el);
     });
 
@@ -118,7 +118,7 @@ describe('list test', () => {
 
     cy.wait(SHORT_DELAY_IN_MS);
 
-    getCircle().each((el, i) => {
+    getCircle().should('have.length', 5).each((el, i) => {
       if (i === 4) circleIsDefault(el);
     });
     getCircleContent().each((el, i) => {
@@ -173,7 +173,7 @@ describe('list test', () => {
 
     cy.wait(SHORT_DELAY_IN_MS);
 
-    getCircle().each((el, i) => {
+    getCircle().should('have.length', 5).each((el, i) => {
       if (i === 2) circleIsDefault(el);
     });
     getCircleContent().each((el, i) => {
@@ -194,7 +194,7 @@ describe('list test', () => {
 
     cy.wait(SHORT_DELAY_IN_MS);
 
-    getCircleText().each((el, i) => {
+    getCircleText().should('have.length', 3).each((el, i) => {
       if (i === 0) expect(el).contain('34');
     });
   })
@@ -212,7 +212,7 @@ describe('list test', () => {
 
     cy.wait(SHORT_DELAY_IN_MS);
 
-    getCircleContent().each((el, i) => {
+    getCircleContent().should('have.length', 3).each((el, i) => {
       if (i === 2) expect(el).contain('tail');
     });
   })
@@ -256,7 +256,7 @@ describe('list test', () => {
 
     cy.wait(SHORT_DELAY_IN_MS);
 
-    getCircleText().each((el, i) => {
+    getCircleText().should('have.length', 3).each((el, i) => {
       if (i === 2) expect(el).contain('1');
     });
   })
