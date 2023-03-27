@@ -43,8 +43,9 @@ export const StringComponent: React.FC = () => {
           style={{width: '377px'}}
           onChange={enterText}
           value={inputValue}
+          data-cy='input'
         />
-        <Button type="submit" text="Развернуть" isLoader={inProgress} />
+        <Button type="submit" text="Развернуть" isLoader={inProgress} disabled={inputValue.length === 0} data-cy='button' />
       </form>
       {isShow && (
         <StringAnimation data={data} setProgress={setProgress} />

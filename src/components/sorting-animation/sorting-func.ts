@@ -48,6 +48,7 @@ export const sortBubble = async (
     res[i].state = ElementStates.Modified;
   }
   setProgress(false);
+  return res;
 }
 
 export const sortSelection = async (
@@ -95,4 +96,5 @@ export const sortSelection = async (
     setArray([...res]);
   }
   setProgress(false);
+  return res;
 }

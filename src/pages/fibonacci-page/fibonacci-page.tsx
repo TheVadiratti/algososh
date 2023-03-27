@@ -34,8 +34,9 @@ export const FibonacciPage: React.FC = () => {
           onChange={enterText}
           value={inputValue}
           placeholder="Введите число"
+          data-cy="input"
         />
-        <Button type="submit" text="Рассчитать" isLoader={inProgress} />
+        <Button type="submit" text="Рассчитать" isLoader={inProgress} disabled={inputValue.length === 0} data-cy="button" />
       </form>
       {isShow && (
         <FibonacciAnimation maxIndex={maxIndex} setProgress={setProgress} />

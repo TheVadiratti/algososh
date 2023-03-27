@@ -35,4 +35,5 @@ export const getRecursionArray = async (
     end--;
   }
   setProgress(false);
+  return array;
 }
